@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Felipe Berrío — Audio Engineer</title>
+<meta name="description" content="Audio engineer, researcher and educator. Perceptual audio evaluation, DSP, spatial audio and music production. MSc Audio and Music Technology, University of York.">
+<meta property="og:title" content="Felipe Berrío — Audio Engineer">
+<meta property="og:description" content="Perceptual audio evaluation, DSP, spatial audio and music production.">
+<meta property="og:image" content="https://felipebc.github.io/assets/img/spheremix.jpg">
+<meta property="og:url" content="https://felipebc.github.io/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f6f78'/%3E%3Cpath d='M10 32h8l5-14 8 28 7-20 5 12 4-6h7' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+html{color-scheme:light dark}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --ink:#15181c; --muted:#5b6470; --line:#e3e1dc;
+  --accent:#1f6f78; --accent-ink:#ffffff; --accent-soft:#e4f1f2; --warm:#c8743a;
+  --radius:14px; --maxw:1100px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1214; --surface:#171b1f; --ink:#eef1f3; --muted:#9aa4ad; --line:#262c32;
+    --accent:#5cc3cc; --accent-ink:#0b1417; --accent-soft:#16292c; --warm:#e39a62;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1214; --surface:#171b1f; --ink:#eef1f3; --muted:#9aa4ad; --line:#262c32;
+  --accent:#5cc3cc; --accent-ink:#0b1417; --accent-soft:#16292c; --warm:#e39a62;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+img,video{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+@media(min-width:720px){.wrap{padding:0 32px}}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;line-height:1.15;margin:0}
+h2{font-size:clamp(1.6rem,3vw,2.1rem);margin-bottom:8px}
+.kicker{font:600 .78rem/1.35 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.lead{color:var(--muted);max-width:62ch;margin:0 0 28px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.brand{font:700 1.05rem "Space Grotesk",sans-serif;color:var(--ink);text-decoration:none;white-space:nowrap}
+.navlinks{display:flex;gap:20px;font-size:.92rem}
+.navlinks a{color:var(--muted);text-decoration:none}
+.navlinks a:hover{color:var(--ink)}
+@media(max-width:720px){.navlinks{display:none}}
+
+/* hero */
+.hero{padding:72px 0 56px}
+.hero h1{font-size:clamp(2.3rem,6vw,4rem);letter-spacing:-.02em;margin-bottom:12px}
+.hero .role{max-width:40ch;text-wrap:balance;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--muted);margin:0 0 24px}
+.hero p.intro{max-width:64ch;margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.wave{margin-top:48px;height:56px;width:100%;color:var(--accent);opacity:.55}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:40px}
+@media(min-width:720px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.stat b{display:block;font:700 1.6rem "Space Grotesk",sans-serif}
+.stat span{color:var(--muted);font-size:.88rem}
+
+section{padding:64px 0;border-top:1px solid var(--line)}
+
+/* projects */
+.projects{display:grid;gap:22px}
+@media(min-width:900px){.projects{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.card.wide{grid-column:1/-1}
+@media(min-width:900px){.card.wide{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.card.wide .media{aspect-ratio:auto;height:100%;min-height:360px}.card.span{grid-column:1/-1}.card.span .body{display:grid;grid-template-columns:1fr 1fr;column-gap:32px}.card.span .body>.tags,.card.span .body>h3,.card.span .body>.ctx{grid-column:1/-1}}
+.media{background:#0c0f11;aspect-ratio:16/9;position:relative;overflow:hidden}
+.media img,.media video{width:100%;height:100%;object-fit:cover}
+.media.contain img{object-fit:contain;background:#fff}
+.card .body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card h3{font-size:1.3rem}
+.card p{margin:0;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.76rem;padding:4px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:14px;margin-top:auto;padding-top:6px;font-weight:500;font-size:.93rem}
+.links a{text-decoration:none}
+.links a:hover{text-decoration:underline}
+.ctx{font-size:.8rem;color:var(--muted)}
+
+table.mini{border-collapse:collapse;font-size:.88rem;width:100%}
+table.mini th{white-space:nowrap}
+table.mini th,table.mini td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.mini th{color:var(--muted);font-weight:500}
+table.mini td b{color:var(--accent)}
+
+/* A/B player */
+.ab{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.ab-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ab-label{font-size:.82rem;color:var(--muted);min-width:64px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink);padding:7px 13px;font:500 .85rem Inter,sans-serif;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.play{width:40px;height:40px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center;flex:none}
+.play svg{width:16px;height:16px}
+@media(max-width:560px){.ab-label{width:100%}.seg button{padding:6px 9px;font-size:.8rem}}
+@media(max-width:360px){.ab{padding:12px}.seg{display:flex;width:100%}.seg button{flex:1 1 auto;padding:6px 4px;font-size:.76rem;white-space:nowrap}}
+.progress{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}
+.progress i{display:block;height:100%;width:0;background:var(--accent)}
+
+/* gallery */
+.gallery{display:flex;flex-direction:column;background:#fff}
+.gallery .media{flex:1}
+@media(min-width:900px){.card.wide .gallery .media{aspect-ratio:auto;min-height:320px}}
+.thumbs{display:flex;gap:8px;padding:10px;background:var(--surface);border-top:1px solid var(--line)}
+.thumbs button{flex:1;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#fff;cursor:pointer;aspect-ratio:4/3}
+.thumbs button img{width:100%;height:100%;object-fit:cover}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent)}
+
+/* youtube facade */
+.media.vertical{aspect-ratio:9/16;width:100%;max-width:190px;margin:16px auto 0;border-radius:10px;overflow:hidden}
+.media.vertical .yt,.media.vertical iframe{width:100%;height:100%}
+.media.vertical .yt img{width:100%;height:100%;object-fit:cover}
+@media(min-width:560px){.card.side{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);align-items:center}.card.side .media.vertical{margin:18px 0 18px 18px;width:calc(100% - 18px);max-width:none}}
+.figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+
+.yt{cursor:pointer;border:0;padding:0;width:100%;height:100%;background:#000;position:relative}
+.yt img{opacity:.85}
+.yt .pbtn{position:absolute;inset:0;display:grid;place-items:center}
+.yt .pbtn span{width:68px;height:48px;border-radius:12px;background:#e62117;display:grid;place-items:center}
+.yt .pbtn svg{width:22px;height:22px;fill:#fff}
+.media iframe{width:100%;height:100%;border:0}
+
+/* two-col lists */
+.grid2{display:grid;gap:22px}
+@media(min-width:820px){.grid2{grid-template-columns:1fr 1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.panel h3{font-size:1.15rem;margin-bottom:4px}
+.panel .when{color:var(--muted);font-size:.85rem;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.82rem;padding:5px 10px;border:1px solid var(--line);border-radius:999px}
+ul.awards{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+ul.awards li{display:flex;gap:12px;align-items:baseline}
+ul.awards .medal{min-width:4.6em;text-align:center;font:700 .72rem Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;flex:none}
+.gold{background:#f3e3b3;color:#6b4e00}.silver{background:#e3e6ea;color:#3d4550}
+ul.awards small{color:var(--muted);white-space:nowrap}
+
+.skills{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.skills .chip{white-space:nowrap}
+.skills h3{margin:0 0 8px;font:600 .95rem Inter,system-ui,sans-serif}
+
+footer{padding:56px 0 64px;border-top:1px solid var(--line)}
+footer .btns{margin-top:18px}
+.small{font-size:.82rem;color:var(--muted);margin-top:28px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Felipe Berrío</a>
+    <div class="navlinks">
+      <a href="#work">Work</a>
+      <a href="#production">Production</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="kicker">Audio engineer · Researcher · Educator</div>
+    <h1>Andrés Felipe Berrío</h1>
+    <p class="role">Audio engineer focused on the perceptual evaluation of machine-learning-based audio.</p>
+    <p class="intro">My MSc research at the University of York investigated how listeners perceive neural models of analogue audio gear, from high-gain guitar amplifiers to EQs and compressors, using listening experiments and statistical analysis. My broader interests span generative audio, neural amp modelling, spatial and immersive audio, psychoacoustics, and music post-production with emerging technologies.</p>
+    <div class="btns">
+      <a class="btn primary" href="cv/Felipe_Berrio_CV.pdf" download>Download CV</a>
+      <a class="btn" href="mailto:afelipeberrio90@gmail.com">Email</a>
+      <a class="btn" href="https://www.linkedin.com/in/felipe-berr%C3%ADo-20445630a/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/FelipeBC" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>MSc</b><span>University of York, UK</span></div>
+      <div class="stat"><b>4</b><span>AES student recording awards</span></div>
+      <div class="stat"><b>2022–25</b><span>teaching university audio</span></div>
+      <div class="stat"><b>2012</b><span>behind the desk since</span></div>
+    </div>
+    <svg class="wave" viewBox="0 0 1000 56" preserveAspectRatio="none" aria-hidden="true"><path id="wavepath" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+  </div>
+</header>
+
+<main>
+
+<section id="work">
+  <div class="wrap">
+    <div class="kicker">Selected work</div>
+    <h2>Projects</h2>
+    <p class="lead">DSP, machine listening, spatial and interactive audio, with code, reports and demos.</p>
+
+    <div class="projects">
+
+      <!-- Amp model -->
+      <article class="card wide">
+        <div class="media contain"><img src="assets/img/amp-spectrum.jpg" alt="Magnitude spectrum of a 1 kHz test sine after each stage of the amplifier model" loading="lazy"></div>
+        <div class="body">
+          <div class="tags"><span class="tag">DSP</span><span class="tag">Virtual analogue</span><span class="tag">MATLAB</span></div>
+          <h3>High-gain guitar amplifier model</h3>
+          <p>A virtual-analogue chain built stage by stage: a TS9-style overdrive, a four-stage biased tube preamp with a Bassman tone stack, and cabinet IR convolution. Listen to what each stage adds.</p>
+          <div class="ab" data-ab>
+            <div class="ab-row"><span class="ab-label">Preset</span>
+              <div class="seg" data-group="preset">
+                <button aria-pressed="true" data-v="Modern_High_Gain">Modern High Gain</button>
+                <button aria-pressed="false" data-v="Hard_Rock">Hard Rock</button>
+              </div>
+            </div>
+            <div class="ab-row"><span class="ab-label">Signal</span>
+              <div class="seg" data-group="stage">
+                <button aria-pressed="true" data-v="01_Dry_Signal">Dry DI</button>
+                <button aria-pressed="false" data-v="02_TS9_Only">TS9</button>
+                <button aria-pressed="false" data-v="03_TS9_Preamp">+ Preamp</button>
+                <button aria-pressed="false" data-v="04_TS9_Preamp_CabIR">+ Cabinet</button>
+              </div>
+            </div>
+            <div class="ab-row">
+              <button class="play" aria-label="Play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg></button>
+              <div class="progress"><i></i></div>
+            </div>
+            <audio preload="none"></audio>
+          </div>
+          <div class="links">
+            <a href="https://github.com/FelipeBC/guitar-amp-virtual-analogue" target="_blank" rel="noopener">Code →</a>
+            <a href="amp-report/">Report →</a>
+          </div>
+          <div class="ctx">MSc module: Modelling and Analysing Sound and Music Signals</div>
+        </div>
+      </article>
+
+      <!-- Onsets -->
+      <article class="card">
+        <div class="media contain"><img src="assets/img/onsets-metal.jpg" alt="Spectral-flux onset detection on a dense metal mix versus its Demucs drum stem" loading="lazy"></div>
+        <div class="body">
+          <div class="tags"><span class="tag">MIR</span><span class="tag">Neural source separation</span><span class="tag">Demucs</span></div>
+          <h3>Does source separation help onset detection?</h3>
+          <p>A spectral-flux detector run on full mixes vs. Demucs drum stems, scored against hand-annotated onsets.</p>
+          <table class="mini">
+            <tr><th>Texture</th><th>F1 mix</th><th>F1 drum stem</th></tr>
+            <tr><td>Dense (metal)</td><td>0.61</td><td><b>1.00</b></td></tr>
+            <tr><td>Medium (reggae)</td><td>0.44</td><td><b>0.92</b></td></tr>
+            <tr><td>Sparse (perc. &amp; voice)</td><td><b>0.62</b></td><td>0.52</td></tr>
+          </table>
+          <div class="links">
+            <a href="https://github.com/FelipeBC/onset-detection-demucs" target="_blank" rel="noopener">Code →</a>
+            <a href="https://github.com/FelipeBC/onset-detection-demucs/blob/main/docs/paper.pdf" target="_blank" rel="noopener">Paper →</a>
+          </div>
+          <div class="ctx">MSc module: Modelling and Analysing Sound and Music Signals</div>
+        </div>
+      </article>
+
+      <!-- SphereMix -->
+      <article class="card">
+        <div class="media"><video src="assets/video/spheremix-demo.mp4" poster="assets/img/spheremix.jpg" controls preload="none" playsinline></video></div>
+        <div class="body">
+          <div class="tags"><span class="tag">iPad app</span><span class="tag">Swift</span><span class="tag">AVAudioEngine</span></div>
+          <h3>SphereMix</h3>
+          <p>A gesture-based multitrack mixer for iPad: each track is a sphere. Moving it sideways pans it, moving it up or down changes its brightness, and pinching sets its level. It also has per-track reverb and delay, plus a global A/B bypass.</p>
+          <div class="links">
+            <a href="https://github.com/FelipeBC/spheremix" target="_blank" rel="noopener">Code →</a>
+          </div>
+          <div class="ctx">MSc module: Audio App Development and Marketing</div>
+        </div>
+      </article>
+
+      <!-- WANKA -->
+      <article class="card">
+        <div class="media">
+          <button class="yt" data-yt="IfpTxSTXmZc" data-title="WANKA demo video" aria-label="Play WANKA video">
+            <img src="assets/img/wanka-ui.jpg" alt="WANKA interface with live hand tracking" loading="lazy">
+            <span class="pbtn"><span><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></span></span>
+          </button>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag">Archaeoacoustics</span><span class="tag">Ambisonics</span><span class="tag">Gesture control</span></div>
+          <h3>WANKA</h3>
+          <p>A digital pututu (shell trumpet) you play with hand gestures via webcam inside a virtual reconstruction of the Doble Ménsula gallery at Chavín de Huántar, Peru. The gallery reverb is a head-tracked B-format convolution decoded to binaural, and the modelled room is analysed according to ISO&nbsp;3382&#8209;1.</p>
+          <p class="ctx">MediaPipe · TouchDesigner · Max/MSP · SPAT5 · ODEON</p>
+          <div class="links">
+            <a href="https://github.com/FelipeBC/wanka" target="_blank" rel="noopener">Code →</a>
+            <a href="https://github.com/FelipeBC/wanka/blob/main/docs/report.pdf" target="_blank" rel="noopener">Report →</a>
+          </div>
+          <div class="ctx">MSc module: Immersive and Interactive Audio</div>
+        </div>
+      </article>
+
+      <!-- SoundSpells -->
+      <article class="card side">
+        <div class="media vertical">
+          <button class="yt" data-yt="KL1Qzr0SY0c" data-title="SoundSpells gameplay video" aria-label="Play SoundSpells video">
+            <img src="https://i.ytimg.com/vi/KL1Qzr0SY0c/hqdefault.jpg" alt="" loading="lazy">
+            <span class="pbtn"><span><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></span></span>
+          </button>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag">VR</span><span class="tag">Unity</span><span class="tag">Steam Audio</span></div>
+          <h3>SoundSpells</h3>
+          <p>A VR game for PICO 4 where sound becomes something you act on. You cast chorus, echo, pitch-shift and distortion "spells" with mid-air wand gestures to free four statues that whisper riddles. Audio is spatialised binaurally with Steam Audio, and telemetry from 20 test sessions was analysed to measure gesture-recognition rates.</p>
+          <div class="ctx">MSc module: Sound Interactions in the Metaverse</div>
+        </div>
+      </article>
+
+      <!-- Binaural / psychoacoustics -->
+      <article class="card wide">
+        <div class="gallery">
+          <div class="media contain"><img data-main src="assets/img/binaural-3d-walk.jpg" alt="3D view: footsteps and dialogue trajectories around the head on the SADIE II measurement sphere" loading="lazy"></div>
+          <div class="thumbs">
+            <button aria-pressed="true" aria-label="Show: 3D view: footsteps and dialogue trajectories around the head on the SADIE II measurement sphere" data-src="assets/img/binaural-3d-walk.jpg" data-alt="3D view: footsteps and dialogue trajectories around the head on the SADIE II measurement sphere"><img src="assets/img/binaural-3d-walk.jpg" alt="" loading="lazy"></button>
+            <button aria-pressed="false" aria-label="Show: Front view: the final voice passing over the listener's head" data-src="assets/img/binaural-3d-overhead.jpg" data-alt="Front view: the final voice passing over the listener's head"><img src="assets/img/binaural-3d-overhead.jpg" alt="" loading="lazy"></button>
+            <button aria-pressed="false" aria-label="Show: Top-down view of all moving source trajectories" data-src="assets/img/binaural-top.jpg" data-alt="Top-down view of all moving source trajectories"><img src="assets/img/binaural-top.jpg" alt="" loading="lazy"></button>
+            <button aria-pressed="false" aria-label="Show: Recording the overhead voice in an anechoic chamber" data-src="assets/img/binaural-anechoic.jpg" data-alt="Recording the overhead voice in an anechoic chamber"><img src="assets/img/binaural-anechoic.jpg" alt="" loading="lazy"></button>
+          </div>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag">Binaural</span><span class="tag">HRIR convolution</span><span class="tag">Psychoacoustics</span><span class="tag">MATLAB</span></div>
+          <h3>Binaural radio drama &amp; virtual pitch explorer</h3>
+          <p>A 30-second binaural scene: a door opens behind you, a man walks in a circle around you as he talks, a radio switches on to your left, and a voice flies over your head. Sources are rendered with SADIE II binaural impulse responses, both static and moving in azimuth and elevation, using overlap-add convolution with smoothing between responses. Effects are applied before spatialisation.</p>
+          <div class="ab">
+            <div class="ab-row"><span class="ab-label">🎧 Use headphones</span></div>
+            <audio controls preload="none" src="assets/audio/binaural-radio-drama.mp3" style="width:100%"></audio>
+          </div>
+          <p>Also included: an <strong>interactive virtual-pitch tool</strong> with six missing-fundamental test cases (harmonic, F2-dominant, high-frequency and inharmonic tones, plus a melody with randomised spectra).</p>
+          <div class="links">
+            <a href="https://github.com/FelipeBC/binaural-psychoacoustics-demos" target="_blank" rel="noopener">Code →</a>
+            <a href="https://github.com/FelipeBC/binaural-psychoacoustics-demos/blob/main/docs/binaural_report.pdf" target="_blank" rel="noopener">Binaural report →</a>
+          </div>
+          <div class="ctx">MSc module: Audio Signals and Psychoacoustics</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="production">
+  <div class="wrap">
+    <div class="kicker">Recording &amp; production</div>
+    <h2>Behind the desk</h2>
+    <p class="lead">Sound engineer at <strong>Montaña Producciones</strong> (Urrao / Medellín, Colombia) since 2020. I record in the studio and on location, mix and master, edit audio and design sound, run small-format live sound, and direct audiovisual projects with social impact.</p>
+    <div class="grid2">
+      <div class="panel">
+        <h3>AES Latin American Student Recording Competition</h3>
+        <div class="when">Traditional Music Studio category</div>
+        <ul class="awards">
+          <li><span class="medal gold">Gold</span><span>AES Convention, Cali, Colombia <small>· 2022</small></span></li>
+          <li><span class="medal silver">Silver</span><span>AES Convention, Medellín, Colombia <small>· 2021</small></span></li>
+          <li><span class="medal silver">Silver</span><span>AES Convention, Rio de Janeiro, Brazil <small>· 2020</small></span></li>
+          <li><span class="medal silver">Silver</span><span>AES Convention, Lima, Peru <small>· 2019</small></span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 lang="es">Así suena Urrao, radiografía sonora</h3>
+        <div class="when">BA thesis · ITM Medellín · 2022 · Honourable Mention</div>
+        <p style="margin:0;color:var(--muted)">A sound portrait of my hometown, Urrao (Antioquia), recognised as outstanding undergraduate thesis work in Recording Arts and Music Production.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="teaching">
+  <div class="wrap">
+    <div class="kicker">Teaching</div>
+    <h2>University audio courses</h2>
+    <p class="lead">Adjunct professor in two recording and music-production programmes in the Medellín metropolitan area. I designed and taught hands-on sessions based on each course syllabus.</p>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Institución Universitaria ITM</h3>
+        <div class="when">Medellín · Feb 2024 – Jun 2025</div>
+        <div class="chips"><span class="chip">Mixing</span><span class="chip">DAWs II</span><span class="chip">Perceptive Audio &amp; Critical Listening</span><span class="chip">Digital Audio Editing for Video</span></div>
+      </div>
+      <div class="panel">
+        <h3>Tecnológico de Artes Débora Arango</h3>
+        <div class="when">Envigado · Aug 2022 – Nov 2023</div>
+        <div class="chips"><span class="chip">Mixing</span><span class="chip">Recording 1 &amp; 2</span><span class="chip">MIDI 2</span><span class="chip">Audio for Video Games</span><span class="chip">Foley</span><span class="chip">Musical Preproduction</span><span class="chip">Corrective Editing</span><span class="chip">Creative Editing</span><span class="chip">Audio Computing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="kicker">Toolkit</div>
+    <h2>Skills</h2>
+    <p class="lead">MSc in Audio and Music Technology (Engineering), University of York, 2025–26, with Distinction-level marks (70+) in all five graded taught modules.</p>
+    <div class="skills">
+      <div class="panel"><h3>Production</h3><div class="chips"><span class="chip">Recording</span><span class="chip">Mixing</span><span class="chip">Mastering</span><span class="chip">Dialogue &amp; corrective editing</span><span class="chip">Restoration</span><span class="chip">Foley</span><span class="chip">Pro Tools</span><span class="chip">Reaper</span><span class="chip">Studio One</span><span class="chip">iZotope RX</span></div></div>
+      <div class="panel"><h3>Evaluation &amp; analysis</h3><div class="chips"><span class="chip">Listening test design (ABX, MUSHRA)</span><span class="chip">Equivalence testing</span><span class="chip">Mixed-effects models</span><span class="chip">Spectrogram &amp; loudness analysis</span><span class="chip">Python</span><span class="chip">MATLAB</span></div></div>
+      <div class="panel"><h3>DSP, spatial &amp; interactive</h3><div class="chips"><span class="chip">Neural Amp Modeler</span><span class="chip">Demucs</span><span class="chip">Convolution &amp; filters</span><span class="chip">Ambisonics</span><span class="chip">Binaural</span><span class="chip">Max/MSP</span><span class="chip">Unity + Steam Audio</span><span class="chip">Swift</span></div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="kicker">Contact</div>
+    <h2>Let's work together</h2>
+    <p class="lead">Based in Antioquia, Colombia (UTC−5). I'm open to remote work: audio engineering, AI audio evaluation, audio QA and teaching. I work in Spanish and English.</p>
+    <div class="btns">
+      <a class="btn primary" href="mailto:afelipeberrio90@gmail.com">afelipeberrio90@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/felipe-berr%C3%ADo-20445630a/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/FelipeBC" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="cv/Felipe_Berrio_CV.pdf" download>CV (PDF)</a>
+    </div>
+    <p class="small">© 2026 Andrés Felipe Berrío Cartagena</p>
+  </div>
+</footer>
+
+<script>
+// decorative waveform
+(function(){
+  const p=document.getElementById('wavepath'); if(!p) return;
+  let d='M0 28'; for(let x=0;x<=1000;x+=4){
+    const env=Math.sin(Math.PI*x/1000);
+    const y=28+env*(Math.sin(x*0.09)*12+Math.sin(x*0.023)*9+Math.sin(x*0.41)*3);
+    d+=' L'+x+' '+y.toFixed(1);
+  } p.setAttribute('d',d);
+})();
+
+// A/B player for the amp model
+document.querySelectorAll('[data-ab]').forEach(box=>{
+  const audio=box.querySelector('audio'), bar=box.querySelector('.progress i'), btn=box.querySelector('.play');
+  const state={preset:'Modern_High_Gain',stage:'01_Dry_Signal'};
+  const playIcon='<svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>';
+  const pauseIcon='<svg viewBox="0 0 16 16"><path d="M3 2h4v12H3zM9 2h4v12H9z" fill="currentColor"/></svg>';
+  const src=()=>'assets/audio/'+state.preset+'_'+state.stage+'.mp3';
+  function load(keepTime){
+    const t=audio.currentTime, playing=!audio.paused;
+    audio.src=src();
+    if(keepTime){ audio.addEventListener('loadedmetadata',()=>{ try{audio.currentTime=Math.min(t,audio.duration||t);}catch(e){} if(playing) audio.play(); },{once:true}); audio.load(); }
+  }
+  box.querySelectorAll('.seg').forEach(seg=>{
+    seg.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+      state[seg.dataset.group]=b.dataset.v; load(true);
+    });
+  });
+  btn.addEventListener('click',()=>{
+    if(!audio.src) audio.src=src();
+    if(audio.paused){ audio.play(); } else { audio.pause(); }
+  });
+  audio.addEventListener('play',()=>{btn.innerHTML=pauseIcon;btn.setAttribute('aria-label','Pause');});
+  audio.addEventListener('pause',()=>{btn.innerHTML=playIcon;btn.setAttribute('aria-label','Play');});
+  audio.addEventListener('ended',()=>{bar.style.width='0';});
+  audio.addEventListener('timeupdate',()=>{ if(audio.duration) bar.style.width=(100*audio.currentTime/audio.duration)+'%'; });
+});
+
+// gallery
+document.querySelectorAll('.gallery').forEach(g=>{
+  const main=g.querySelector('[data-main]');
+  g.querySelectorAll('.thumbs button').forEach(b=>b.addEventListener('click',()=>{
+    main.src=b.dataset.src; main.alt=b.dataset.alt;
+    g.querySelectorAll('.thumbs button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  }));
+});
+
+// YouTube facade
+document.querySelectorAll('.yt').forEach(b=>b.addEventListener('click',()=>{
+  const f=document.createElement('iframe');
+  f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1';
+  f.allow='autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen=true; f.title=b.dataset.title||'Project video';
+  b.replaceWith(f); f.focus();
+}));
+</script>
+</body>
+</html>

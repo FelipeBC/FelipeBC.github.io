@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Virtual-Analogue Modelling of a High-Gain Guitar Amplifier Using Static Waveshaping</title>
+<style>
+  .analysis-fig img{
+  max-width: 65%;
+}
+.analysis-row{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.analysis-row img{
+  width: 32%;
+}
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 950px;
+    margin: auto;
+    line-height: 1.55;
+    padding: 1.5rem 2rem;
+  }
+  h1,h2,h3,h4{ margin-top: 1.6rem; }
+  figure{
+    text-align:center;
+    margin: 1.2rem 0;
+  }
+  figure img{
+    max-width: 100%;
+    height: auto;
+  }
+  figcaption{
+    font-size: 0.9rem;
+    color:#555;
+    text-align:center;
+    margin-top: 1rem;
+  }
+  .equation{
+    display:block;
+    margin: 1rem auto 0.3rem auto;
+    max-width: 80%;
+    height:auto;
+    margin-bottom: 1.7rem;
+  }
+  .eqdesc{
+    font-size: 0.9rem;
+    color:#333;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  audio{
+    width:100%;
+    margin: 0.3rem 0 1rem 0;
+  }
+  pre.code{
+    background:#f4f4f4;
+    padding:10px;
+    overflow-x:auto;
+    font-size:0.92rem;
+    line-height:1.35;
+    border-radius:6px;
+  }
+  .note{
+    background:#fff7e6;
+    border:1px solid #f2d199;
+    padding:0.75rem 0.9rem;
+    border-radius:8px;
+  }
+  .small{
+    font-size:0.92rem;
+    color:#333;
+  }
+  .wordcount{
+    margin-top: 1.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+    font-size: 0.95rem;
+  }
+ .audio-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin: 1rem 0;
+}
+.audio-item{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.audio-item strong{
+  font-size: 0.95rem;
+}
+.audio-line strong{
+  min-width: 280px; /* ajusta si quieres */
+}
+/* Slider container */
+.slider-container {
+  position: relative;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  overflow: hidden;
+}
+
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.slider-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.slider-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation buttons */
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 1.3rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.slider-nav:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.slider-nav.prev {
+  left: 10px;
+}
+
+.slider-nav.next {
+  right: 10px;
+}
+
+/* Dots indicator */
+.slider-dots {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.slider-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider-dot.active {
+  background: #333;
+}
+  /* Exclude from word count */
+  .no-wordcount{}
+  figure, figcaption, .eqdesc, pre, code, #references, #references * { /* excluded in JS */ }
+
+</style>
+</head>
+
+<body>
+<p style="font:14px system-ui,sans-serif;margin:12px 16px"><a href="../">← Felipe Berrío – portfolio</a> · <a href="https://github.com/FelipeBC/guitar-amp-virtual-analogue">Code on GitHub</a></p>
+
+<h1>Virtual-Analogue Modelling of a High-Gain Guitar Amplifier Using Static Waveshaping</h1>
+
+<h2>1. Introduction</h2>
+
+<p>
+Most guitarists instantly recognise a high-gain amplifier tone: endless sustain, thick distortion, and a tight, focused character. This sound doesn’t come from a single component but from a carefully orchestrated chain of stages — typically starting with an overdrive pedal to tighten and boost the signal, followed by heavily driven tube preamplifier stages for rich harmonic generation and compression, a tone-shaping network to sculpt frequency balance, and finally the loudspeaker cabinet response that adds the essential “in-the-room” coloration and resonances. Each part of this chain reshapes the waveform and spectral content in unique ways, creating the perceived change in timbre that players chase [1], [2].
+</p>
+
+<p>
+High-gain tones are central to modern rock, metal, and djent styles, where clarity under heavy distortion is critical for palm-muted rhythms and soaring leads. Real-world examples include amplifiers like the Mesa/Boogie Dual Rectifier or Peavey 5150, which rely on cascaded valve nonlinearity and cabinet/mic combinations to achieve their signature aggression. The benefits of digital modelling include high reproducibility, parameter tweakability, low noise, and portability — drawbacks include potential loss of subtle analogue “feel” (e.g., dynamic tube response) and risks like aliasing at extreme settings [1], [4].
+</p>
+
+<p>
+This project builds a compact digital model of that classic high-gain chain using three key blocks: a TS9-style overdrive, a tube-style multistage preamplifier with integrated tone control, and a cabinet simulator based on convolution with measured impulse responses. The goal is not to clone any specific commercial product exactly, but to clearly demonstrate how each block contributes to the final tone, with changes made visible through waveforms, spectra, and listening examples. By focusing on a physics-inspired virtual-analogue approach, the model remains controllable and insightful, allowing exploration of how simple static nonlinearities and linear filters can approximate complex real-world behaviour [1], [3].
+</p>
+
+<h2>2. Background and system description</h2>
+
+<p>
+At a physical level, tube distortion arises from nonlinear valve characteristics — asymmetric clipping due to grid-current effects and cathode bias shift — while cabinet response involves mechanical resonances and diffraction from the speaker cone and enclosure. Digital static waveshaping approximates these by mapping input amplitude to output via functions like tanh or rational polynomials, capturing essential harmonic generation without modelling full electron flow or acoustic wave propagation. This trade-off prioritises perceptual accuracy and computational efficiency over exact circuit replication, aligning with practical virtual-analogue design principles discussed in the module [1], [3].
+</p>
+
+<h3>2.1 TS9-style overdrive</h3>
+
+<p>
+The Ibanez Tube Screamer (TS9) and its many clones are staples before high-gain amps. Beyond boosting level, they tighten low-end response, emphasise midrange, and apply controlled soft clipping to improve tightness and prevent muddiness in subsequent stages. Modelling typically combines a static nonlinearity with pre- and post-filtering to replicate the pedal’s signature mid-hump and smooth saturation [1], [2].
+</p>
+
+<h3>2.2 Tube preamplifier and tone control</h3>
+
+<p>
+High-gain preamps cascade multiple valve stages driven into nonlinearity. This increases harmonic density and compression, shaping the overall timbre [4]. Tone stacks (bass/mid/treble controls) further sculpt frequency balance and interact with gain staging; these are well-documented in virtual-analogue literature [1], [3]. In real circuits, these networks often load preceding stages, but here we treat the tone stack as a post-nonlinearity linear filter for simplicity and clarity.
+</p>
+
+<h3>2.3 Loudspeaker cabinet and impulse-response modelling</h3>
+
+<p>
+The cabinet and microphone contribute significantly to the final electric guitar sound, adding resonances (especially in the low-mids) and gentle high-frequency roll-off typical of guitar speakers. This chain can be approximated as a linear time-invariant system, captured via an impulse response and applied through convolution — a standard and practical method for digital cabinet simulation [1], [4]. Different IRs (e.g., modern tight vs. vintage open) dramatically alter perceived aggression and openness.
+</p>
+
+<h2>3. Model and implementation</h2>
+
+<p>
+This project employs a straightforward static waveshaping approach combined with linear filtering [1], which keeps the model simple, controllable, and easy to analyse while still delivering musically useful high-gain tones. The full chain simulates three main stages in series: a TS9-style overdrive, a nonlinear preamplifier with tone control, and a cabinet simulator via impulse response convolution, forming a true multistage nonlinear system. More advanced techniques — such as dynamic nonlinear filters, wave digital filters (WDF) for circuit-accurate modelling, or full nodal simulation — are beyond the current scope but represent valuable future directions [3].
+</p>
+
+<figure class="no-wordcount">
+  <img src="figures/Signal_Flow.png" alt="Signal flow diagram" style="margin-top:8px;">
+  <figcaption>Figure 1 – Signal flow of the implemented high-gain guitar model.</figcaption>
+ 
+</figure>
+
+<p>The core distortion uses static waveshaping — a memoryless nonlinear function <em>f</em>(·) applied sample-by-sample:</p>
+<img src="figures/General_static_nonlinearity.png" alt="y(t)=f(x(t))" class="equation no-wordcount">
+<p class="eqdesc no-wordcount">
+Here <em>x</em>(<em>t</em>) is the input signal and <em>y</em>(<em>t</em>) the output. The memoryless property means the output depends solely on the current input sample. This method effectively reproduces guitar distortion qualities — harmonic generation and level-dependent compression — while remaining straightforward to analyse and implement [1].
+</p>
+
+<h3>3.1 TS9-style overdrive (<code>ts9_overdrive.m</code>)</h3>
+
+<p>
+The first stage emulates a TS9-style overdrive using soft clipping via a hyperbolic-tangent waveshaper [1], [2]. The distortion is implemented as a drive gain followed by <code>tanh</code>, with first-order filtering before and after to approximate the pedal’s pre-emphasis and post-tone shaping.
+</p>
+
+<img src="figures/TS9_waveshaper.png" alt="TS9 waveshaper equation" class="equation no-wordcount">
+
+<p class="eqdesc no-wordcount">
+Where <em>x</em>(<em>t</em>) is the input, <em>y</em><sub>TS</sub>(<em>t</em>) the output, <em>G</em><sub>TS</sub> the drive gain controlling saturation depth, and tanh(·) the hyperbolic tangent function. For small signals the mapping is approximately linear; larger amplitudes produce smooth soft clipping [1], [2].
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (ts9_overdrive.m) - overdrive
+% Map drive 0..1 -> internal gain ≈ 1..20
+g = 1 + drive * 19;
+u = g * x_hp;
+v = tanh(u); % Soft clipping using tanh
+</pre>
+
+<h3>3.2 Bias and asymmetry control (<code>tube_waveshaper.m</code>)</h3>
+
+<p>
+To create asymmetric distortion (adding even-order harmonics), we introduce a small DC bias.
+This DC offset is then removed with a simple first-order DC-blocking high-pass filter (mimicking 
+coupling capacitors in real amps), preventing DC buildup in cascaded nonlinear stages [1], [4].
+</p>
+
+<img src="figures/Biased_nonlinearity_NEW.png" alt="Biased nonlinearity equation" class="equation no-wordcount" width="250">
+<p class="eqdesc no-wordcount">
+Where <em>x</em>(<em>t</em>) is the input, <em>y</em>(<em>t</em>) the output, <em>B</em> the bias parameter controlling symmetry, and <em>μ</em> = The DC-compensation term (HPF). When <em>B</em> = 0 the nonlinearity is symmetric (primarily odd harmonics); nonzero <em>B</em> introduces asymmetry and even harmonics [1], [3], [4].
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (tube_waveshaper.m) — biased rational soft clipper + DC blocker
+x_biased = x + B;
+y = x_biased ./ (1 + abs(x_biased)); % smooth soft saturation
+R = exp(-2*pi*fc_dc/fs);
+y = filter([1 -1], [1 -R], y);       % 1st-order DC blocker (HP)                   
+</pre>
+
+<h3>3.3 Nonlinear preamplifier stage (<code>gtr_preamp.m</code>)</h3>
+
+<p>
+The preamplifier approximates a high-gain tube chain with four cascaded nonlinear stages, each applying gain followed by the biased waveshaper. This builds progressive saturation, compression, and harmonic density.
+</p>
+
+<img src="figures/Preamp_cascade_4_stages.png" alt="Preamp cascade equations" class="equation no-wordcount" width="250" style="margin-top:15px;">
+<p class="eqdesc no-wordcount">
+Where <em>G</em><sub>1</sub>, <em>G</em><sub>2</sub>, <em>G</em><sub>3</sub>, <em>G</em><sub>4</sub> are fixed stage gains (2.5, 2.5, 2.0, 1.5), <em>B</em><sub>k</sub> are stage biases derived as <em>B</em><sub>base</sub> · [0.6, 0.8, 1.0, 1.2], <em>x</em><sub>1</sub> to <em>x</em><sub>3</sub> are intermediate signals, <em>y</em><sub>pre</sub> the final output, and <em>f</em>(<em>u</em>, <em>B</em>) the biased rational clipper from Section 3.2. Cascading increases asymmetry, compression, and harmonics [1], [4].
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (gtr_preamp.m) - four cascaded nonlinear stages
+stage_gains = [2.5, 2.5, 2.0, 1.5];
+bias_vec = bias_base * [0.6, 0.8, 1.0, 1.2];
+for k = 1:numel(stage_gains)
+    u = stage_gains(k) * u;
+    u = tube_waveshaper(u, bias_vec(k),fs);   % see tube_waveshaper.m        
+    u = lp_1storder(u,8000,fs); % 1st-order low-pass filter
+end
+</pre>
+
+<h3>3.4 Tone control (<code>bassman.m</code>)</h3>
+
+<p>
+A Bassman-style tone stack follows the nonlinear cascade. Using the DAFX formulation, component values and bass/mid/treble controls define an analogue transfer function, discretised into a third-order IIR filter [1]–[3].
+</p>
+
+<img src="figures/Tone_stack_analogue_transfer_function.png" alt="Tone stack transfer function" class="equation no-wordcount">
+<p class="eqdesc no-wordcount">
+Where <em>H</em>(s) is the analogue transfer function. The discrete version is a third-order IIR filter with coefficients computed from controls.
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (bassman.m) — tone stack realised as a 3rd-order IIR filter
+% ...compute 3rd-order numerator/denominator coefficients B0..B3 and A0..A3
+% from component values and bass/mid/treble controls (DAFX formulation)...
+B = [B0 B1 B2 B3];
+A = [A0 A1 A2 A3];
+y = filter(B,A,x);  % Output signal
+</pre>
+
+<h3>3.5 Cabinet simulation using impulse responses (<code>Main.m</code>)</h3>
+
+<p>
+The final stage applies convolution with a measured cabinet impulse response to capture loudspeaker coloration, resonances, and high-frequency roll-off [1], [4]. Two impulse responses from the Rainbows and Chainsaws collection are used to illustrate how cabinet choice alone can produce perceptually distinct timbres from the same upstream nonlinear processing [5].
+</p>
+
+<img src="figures/Cabinet_convolution.png" alt="Cabinet convolution equation" class="equation no-wordcount">
+<p class="eqdesc no-wordcount">
+Where <em>x</em>[n] is the input, <em>y</em>[n] the output, and <em>h</em><sub>cab</sub>[k] the impulse response.
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (main.m)
+full = conv(pre, cabIR);
+</pre>
+
+<h3>3.6 User parameters and sound presets</h3>
+
+<p>
+The model exposes parameters including TS9 drive, preamp gain and bias, 
+bass/mid/treble controls, and cabinet IR selection. Two presets ("Modern 
+High Gain" and "Hard Rock") demonstrate the system's timbral range. Rather 
+than providing numerous final-output-only presets, each preset includes 
+progressive staging examples (dry → TS9 → TS9+preamp → full chain), yielding 
+eight distinct audio examples total. This approach illustrates not only 
+different final timbres but also how individual processing blocks contribute 
+to each sound, providing insight into the model's internal behaviour.</p>
+
+<h2>4. Validation and analysis</h2>
+
+<div class="note small">
+  <strong>⚠️ Test signals:</strong> Analysis plots use a 1 kHz sine wave 
+  (level-normalised at every stage input) to make harmonic generation and 
+  filtering easy to see. Listening examples use a short excerpt of the main 
+  riff from Pantera's "I'm Broken" [6] — a great test of sustain, tightness, 
+  and clarity under heavy distortion.
+</div>
+
+<p>
+Validation confirms expected behaviour: nonlinear stages generate harmonics and reshape waveforms; bias adds asymmetry and even harmonics; cabinet IR imposes resonances and high-frequency attenuation [1]. For the 1 kHz test sine, we predict that symmetric tanh clipping (TS9) will produce only odd harmonics with rounded peaks, while biased rational clipping in the preamp cascade will introduce even-order components and increasingly flattened/asymmetric waveforms. The cabinet should then attenuate content above ~5–7 kHz and boost low-mid resonances, as seen in typical guitar speaker responses. These predictions are tested below through progressive time- and frequency-domain comparisons.
+</p>
+
+<h3>4.1 Preset 1 - Modern High Gain </h3>
+
+<p>
+This preset delivers an aggressive, tight modern high-gain tone suited to metal. High TS9 drive compresses transients, 
+while treble emphasis and boosted bass (scooped mids) provide punch and cut for palm-muted rhythms.
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (get_preset_params.m)
+  case 1
+        P.name  = "Modern High Gain";
+        % Ts9
+        P.drive  = 2.5;  % TS9 drive 
+        P.tone   = 0.0;  % TS9 tone  
+        P.level  = 0.1;  % TS9 output level
+        % Amp
+        P.gain   = 300;  % overall preamp input gain
+        P.bias   = 0.2;  % base bias for all stages
+        P.bass   = 0.9;  % (0.5 ~ flat) 
+        P.mid    = 0.5;  % (0.5 ~ flat)
+        P.treble = 1.0;  % (0.5 ~ flat)
+        P.master = 0.15; % preamp output level
+        P.cab    = audioread ("07 Djentparade.wav"); % Cabinet IR
+</pre>
+
+<div class="audio-grid">
+
+  <div class="audio-item">
+    <strong>Dry input</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Modern_High_Gain_01_Dry_Signal.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 only</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Modern_High_Gain_02_TS9_Only.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 + preamplifier</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Modern_High_Gain_03_TS9_Preamp.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 + preamplifier + cabinet IR</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Modern_High_Gain_04_TS9_Preamp_CabIR.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+</div>
+
+<div class="slider-container no-wordcount" id="slider-preset1">
+  <button class="slider-nav prev" onclick="moveSlide('slider-preset1', -1)">‹</button>
+  <button class="slider-nav next" onclick="moveSlide('slider-preset1', 1)">›</button>
+  
+  <div class="slider-wrapper">
+    <div class="slider-slide">
+      <img src="figures/Modern_High_Gain_Waveform_Comparison_Test_Sine_1_kHz.png" alt="Preset 1 Waveform">
+      <figcaption>Figure 2 – Preset 1, Modern High Gain - Waveform comparison – 1 kHz test sine.</figcaption>
+    </div>
+    <div class="slider-slide">
+      <img src="figures/Modern_High_Gain_Magnitude_Spectrum_Comparison_Test_Sine_1_kHz.png" alt="Preset 1 Spectrum">
+      <figcaption>Figure 3 – Preset 1, Modern High Gain - Magnitude spectrum comparison – 1 kHz test sine.</figcaption>
+    </div>
+  </div>
+  
+  <div class="slider-dots">
+    <span class="slider-dot active" onclick="goToSlide('slider-preset1', 0)"></span>
+    <span class="slider-dot" onclick="goToSlide('slider-preset1', 1)"></span>
+  </div>
+</div>
+
+<p>
+The high TS9 drive squashes transients 
+right away, while the treble (1.0) and scooped mids keep upper harmonics crystal clear even with heavy compression. Boosted bass (0.9) plus a 
+tight modern cabinet IR stop any low-end mud — a smart choice for dense mixes where palm-mutes need to punch through without getting lost. In the waveforms 
+you see the saturation build step by step: gentle rounding from the TS9, asymmetric flattening from the biased preamp cascade (base bias 0.2 scaled 
+per stage), and final smoothing from the cabinet's band-limiting. Spectrally, the symmetric TS9 clipping kicks off mostly odd harmonics (3rd, 5th, 7th…), 
+the preamp ramps up density across the board, and the cabinet rolls off highs above ~5 kHz, turning raw aggression into focused, musical bite.
+</p>
+
+<h3>4.2 Preset 2 – Hard Rock</h3>
+
+<p>
+This preset offers a classic mid-forward high-gain tone: tight for palm-mutes but with more attack and dynamics than the modern setting.
+</p>
+
+<pre class="code no-wordcount">
+% MATLAB snippet (get_preset_params.m)
+  case 2
+        P.name  = "Hard Rock";
+        % Ts9
+        P.drive  = 0.4;  % TS9 drive 
+        P.tone   = 0.5;  % TS9 tone  
+        P.level  = 0.15; % TS9 output level
+        % Amp
+        P.gain   = 100;  % overall preamp input gain
+        P.bias   = 0.7;  % base bias for all stages
+        P.bass   = 0.0;  % (0.5 ~ flat) 
+        P.mid    = 0.8;  % (0.5 ~ flat)
+        P.treble = 0.3;  % (0.5 ~ flat)
+        P.master = 0.23; % preamp output level
+        P.cab    = audioread ("04 Into the Old School Clouds.wav"); % Cabinet IR
+</pre>
+
+<div class="audio-grid">
+
+  <div class="audio-item">
+    <strong>Dry input</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Hard_Rock_01_Dry_Signal.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 only</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Hard_Rock_02_TS9_Only.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 + preamplifier</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Hard_Rock_03_TS9_Preamp.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="audio-item">
+    <strong>TS9 + preamplifier + cabinet IR</strong>
+    <audio controls class="no-wordcount">
+      <source src="../assets/audio/Hard_Rock_04_TS9_Preamp_CabIR.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+</div>
+
+<div class="slider-container no-wordcount" id="slider-preset2">
+  <button class="slider-nav prev" onclick="moveSlide('slider-preset2', -1)">‹</button>
+  <button class="slider-nav next" onclick="moveSlide('slider-preset2', 1)">›</button>
+  
+  <div class="slider-wrapper">
+    <div class="slider-slide">
+      <img src="figures/Hard_Rock_Waveform_Comparison_Test_Sine_1_kHz.png" alt="Preset 2 Waveform">
+      <figcaption>Figure 5 – Preset 2, Hard Rock - Waveform comparison – 1 kHz test sine.</figcaption>
+    </div>
+    <div class="slider-slide">
+      <img src="figures/Hard_Rock_Magnitude_Spectrum_Comparison_Test_Sine_1_kHz.png" alt="Preset 2 Spectrum">
+      <figcaption>Figure 6 – Preset 2, Hard Rock - Magnitude spectrum comparison – 1 kHz test sine.</figcaption>
+    </div>
+  </div>
+  
+  <div class="slider-dots">
+    <span class="slider-dot active" onclick="goToSlide('slider-preset2', 0)"></span>
+    <span class="slider-dot" onclick="goToSlide('slider-preset2', 1)"></span>
+  </div>
+
+</div>
+
+<p>
+The TS9 provides the main distortion foundation, while the heavily biased preamp (bias = 0.7, double that of the modern setting) adds pronounced asymmetric clipping, bringing out even-order harmonics for extra warmth, thickness, and a more vocal, singing quality in sustained notes. Waveforms show the progression clearly: gentle rounding from the TS9, very strong asymmetric flattening from the preamp cascade, and smooth high-frequency edges from the cabinet. Spectrally, the preamp builds a denser, higher-order harmonic set on top of the TS9's odd harmonics, with the more open cabinet IR enhancing note bloom and sustain. The mid-forward EQ (mid = 0.8, treble = 0.3) keeps the tone expressive and groovy, perfectly aligning with classic rock's focus on feel and articulation over ultra-tight aggression.
+</p>
+
+<h2>5. Conclusion</h2>
+
+<p>This static-waveshaping and filtering model successfully captures essential 
+high-gain behaviours: progressive harmonic buildup and compression across 
+cascaded stages, bias-dependent asymmetry for even-harmonic warmth, and 
+convincing cabinet coloration through impulse responses. The two presets 
+illustrate the system's timbral range, from ultra-tight modern metal tones 
+to more open, mid-forward classic hard rock sounds, with progressive audio 
+examples and objective analysis confirming theoretical predictions [1]. 
+Despite these simplifications, the model provides a valuable educational tool 
+for understanding how individual nonlinear and linear elements combine to 
+create musically useful high-gain timbres.</p>
+
+<h3>5.1 Limitations</h3>
+
+<p>
+The use of purely static nonlinearities means the model omits important dynamic tube behaviours such as bias shift under signal load, thermal memory effects, 
+and frequency-dependent saturation. Without oversampling or antiderivative methods, very high gain settings can introduce audible aliasing artefacts. 
+The tone stack is implemented as a purely linear filter applied after the nonlinear cascade, whereas real circuits feature bidirectional interactions 
+between tone network and gain stages. Finally, cabinet simulation relies on static impulse responses and does not capture dynamic loudspeaker behaviour 
+(e.g., voice-coil heating) or microphone placement variability [3].
+</p>
+
+<h3>5.2 Future work</h3>
+
+<p>
+Immediate improvements could include oversampling (e.g., 4×) and antiderivative anti-aliasing techniques to reduce high-frequency fold-back artefacts. 
+More physically accurate modelling of the preamp and tone stack could be achieved with wave digital filters (WDF), which preserve circuit topology and 
+nonlinear interactions. Incorporating memory effects (e.g., dynamic bias or hysteresis models) would bring the simulation closer to real tube response. 
+A practical next step would be direct comparison with modern data-driven methods, such as Neural Amp Modeler (NAM), to evaluate perceptual differences 
+between physics-based and neural approaches [7]. Extending the model to include power-amp emulation (e.g., push-pull output stage saturation) or algorithmic 
+reverb would further broaden its tonal palette and complete the full signal chain from input to room acoustics.
+</p>
+
+<h2>References</h2>
+
+<ol id="references" class="no-wordcount">
+  <li>
+    U. Zölzer, Ed., <em>DAFX – Digital Audio Effects</em>, 2nd ed. Chichester, U.K.: Wiley, 2011.
+  </li>
+  <li>
+    D. T. Yeh, J. S. Abel and J. O. Smith, "Simplified, physically-informed models of distortion and overdrive guitar effects pedals," in
+    <em>Proc. Int. Conf. Digital Audio Effects (DAFx-07)</em>, Bordeaux, France, 2007.
+  </li>
+  <li>
+    D. T. Yeh, "Digital implementation of musical distortion circuits by analysis and simulation,"
+    Ph.D. dissertation, Stanford University, 2009.
+  </li>
+  <li>
+    J. Pakarinen and D. T. Yeh, "A review of digital techniques for modeling vacuum-tube guitar amplifiers,"
+    <em>Computer Music Journal</em>, vol. 33, no. 2, pp. 85–100, 2009.
+  </li>
+ <li>
+  K. Kohle, <em>Kristian Kohle Signature IR Pack: Rainbows and Chainsaws</em>, 
+  Bogren Digital, accessed Jan. 2026. [Online]. Available: https://bogrendigital.com/products/kristian-kohle-signature-ir-pack-rainbows-and-chainsaws
+</li>
+
+  <li>
+    Pantera, "I'm Broken," <em>Far Beyond Driven</em>, East West Records, 1994. 
+    Listening examples use a short riff excerpt. [Online]. Available: 
+    <a href="https://www.youtube.com/watch?v=2-V8kYT1pvE" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=2-V8kYT1pvE</a>
+  </li>
+  <li>
+    S. Atkinson, "Neural Amp Modeler," GitHub repository, 2023–2026, accessed Jan. 2026. 
+    [Online]. Available: https://github.com/sdatkinson/neural-amp-modeler
+  </li>
+</ol>
+
+
+<div class="wordcount">
+  <strong>Word count (main text only):</strong> <span id="wordCount">—</span>
+  <div class="small">
+    Excludes: references, figures/captions, equation descriptions, and code blocks.
+  </div>
+</div>
+
+<script>
+(function(){
+  function countWords(text){
+    return (text.trim().match(/\b[\w’']+\b/g) || []).length;
+  }
+
+  // Count only "main text": exclude references, figures, captions, eq descriptions, and code blocks.
+  const bodyClone = document.body.cloneNode(true);
+
+  // Remove excluded sections/elements
+  const selectorsToRemove = [
+    '#references', 'ol#references', 'h2#references',
+    'figure', 'figcaption',
+    '.eqdesc',
+    'pre', 'code',
+    '.wordcount'
+  ];
+  selectorsToRemove.forEach(sel => {
+    bodyClone.querySelectorAll(sel).forEach(el => el.remove());
+  });
+
+  // Also remove audio elements (not text)
+  bodyClone.querySelectorAll('audio, source, script, style').forEach(el => el.remove());
+
+  // Get plain text from remaining content
+  const text = bodyClone.innerText
+    .replace(/\[[0-9]+\]/g,'')   // remove IEEE markers from count if desired
+    .replace(/\s+/g,' ')
+    .trim();
+
+  document.getElementById('wordCount').textContent = countWords(text);
+})();// Slider functionality
+// Slider functionality
+const sliders = {};
+
+function initSlider(sliderId) {
+  sliders[sliderId] = {
+    currentSlide: 0,
+    wrapper: document.querySelector(`#${sliderId} .slider-wrapper`),
+    slides: document.querySelectorAll(`#${sliderId} .slider-slide`),
+    dots: document.querySelectorAll(`#${sliderId} .slider-dot`)
+  };
+}
+
+function moveSlide(sliderId, direction) {
+  const slider = sliders[sliderId];
+  const totalSlides = slider.slides.length;
+  
+  slider.currentSlide += direction;
+  
+  if (slider.currentSlide < 0) slider.currentSlide = totalSlides - 1;
+  if (slider.currentSlide >= totalSlides) slider.currentSlide = 0;
+  
+  updateSlider(sliderId);
+}
+
+function goToSlide(sliderId, index) {
+  sliders[sliderId].currentSlide = index;
+  updateSlider(sliderId);
+}
+
+function updateSlider(sliderId) {
+  const slider = sliders[sliderId];
+  const offset = -slider.currentSlide * 100;
+  
+  slider.wrapper.style.transform = `translateX(${offset}%)`;
+  
+  slider.dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === slider.currentSlide);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initSlider('slider-preset1');
+  initSlider('slider-preset2');
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') {
+    moveSlide('slider-preset1', -1);
+    moveSlide('slider-preset2', -1);
+  } else if (e.key === 'ArrowRight') {
+    moveSlide('slider-preset1', 1);
+    moveSlide('slider-preset2', 1);
+  }
+});
+
+
+</script>
+
+
+
+</body>
+</html>
