@@ -11,6 +11,11 @@
 <meta property="og:url" content="https://felipebc.github.io/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="es_CO">
+<link rel="alternate" hreflang="en" href="https://felipebc.github.io/">
+<link rel="alternate" hreflang="es" href="https://felipebc.github.io/es/">
+<link rel="alternate" hreflang="x-default" href="https://felipebc.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f6f78'/%3E%3Cpath d='M10 32h8l5-14 8 28 7-20 5 12 4-6h7' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,6 +60,14 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 .navlinks a{color:var(--muted);text-decoration:none}
 .navlinks a:hover{color:var(--ink)}
 @media(max-width:720px){.navlinks{display:none}}
+
+/* language switch */
+.navright{display:flex;align-items:center;gap:20px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;font:600 .78rem/1 Inter,system-ui,sans-serif;letter-spacing:.04em}
+.lang a,.lang span{padding:6px 10px;border-radius:999px;color:var(--muted);text-decoration:none}
+.lang a:hover{color:var(--ink)}
+.lang [aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+.card.span .body>p.sub{grid-column:1/-1;margin-top:-6px;font-style:italic}
 
 /* hero */
 .hero{padding:72px 0 56px}
@@ -165,12 +178,18 @@ footer .btns{margin-top:18px}
 <nav>
   <div class="wrap">
     <a class="brand" href="#top">Felipe Berrío</a>
-    <div class="navlinks">
-      <a href="#work">Work</a>
-      <a href="#production">Production</a>
-      <a href="#teaching">Teaching</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+    <div class="navright">
+      <div class="navlinks">
+        <a href="#work">Work</a>
+        <a href="#production">Production</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <span aria-current="page" title="English">EN</span>
+        <a href="es/" hreflang="es" lang="es" title="Ver en español">ES</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -206,6 +225,22 @@ footer .btns{margin-top:18px}
     <p class="lead">DSP, machine listening, spatial and interactive audio, with code, reports and demos.</p>
 
     <div class="projects">
+
+      <!-- MSc dissertation (no results until the journal paper is settled) -->
+      <article class="card span" id="thesis">
+        <div class="body">
+          <div class="tags"><span class="tag">MSc dissertation</span><span class="tag">Listening tests</span><span class="tag">Neural amp modelling</span><span class="tag">Statistics</span></div>
+          <h3>Perceptual Evaluation of Neural Audio Device Modeling</h3>
+          <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and ran an ABX listening study to find out. Instead of only asking whether a difference can be heard, the study used equivalence testing to ask whether each capture is perceptually equivalent to its hardware, with the equivalence margin fixed before data collection.</p>
+          <table class="mini">
+            <tr><th>Devices</th><td>Guitar amp · EQ · compressor</td></tr>
+            <tr><th>Test</th><td>ABX with equivalence testing (TOST)</td></tr>
+            <tr><th>Analysis</th><td>Binomial mixed-effects model (GLMM)</td></tr>
+            <tr><th>Mark</th><td><b>78/100</b> · Distinction</td></tr>
+          </table>
+          <div class="ctx">University of York, 2026 · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
+        </div>
+      </article>
 
       <!-- Amp model -->
       <article class="card wide">
@@ -396,7 +431,7 @@ footer .btns{margin-top:18px}
   <div class="wrap">
     <div class="kicker">Toolkit</div>
     <h2>Skills</h2>
-    <p class="lead">MSc in Audio and Music Technology (Engineering), University of York, 2025–26, with Distinction-level marks (70+) in all five graded taught modules.</p>
+    <p class="lead">MSc in Audio and Music Technology, University of York, 2025–26, with Distinction-level marks (70+) in all five graded taught modules and in the dissertation.</p>
     <div class="skills">
       <div class="panel"><h3>Production</h3><div class="chips"><span class="chip">Recording</span><span class="chip">Mixing</span><span class="chip">Mastering</span><span class="chip">Dialogue &amp; corrective editing</span><span class="chip">Restoration</span><span class="chip">Foley</span><span class="chip">Pro Tools</span><span class="chip">Reaper</span><span class="chip">Studio One</span><span class="chip">iZotope RX</span></div></div>
       <div class="panel"><h3>Evaluation &amp; analysis</h3><div class="chips"><span class="chip">Listening test design (ABX, MUSHRA)</span><span class="chip">Equivalence testing</span><span class="chip">Mixed-effects models</span><span class="chip">Spectrogram &amp; loudness analysis</span><span class="chip">Python</span><span class="chip">MATLAB</span></div></div>
