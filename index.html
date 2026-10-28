@@ -141,7 +141,8 @@ table.mini td b{color:var(--accent)}
 .media.short .vbox{height:100%;aspect-ratio:9/16;max-width:100%}
 .media.short .vbox .yt,.media.short .vbox iframe{width:100%;height:100%;display:block}
 @media(max-width:899px){.media.short{aspect-ratio:4/5}}
-.card .txt{display:flex;flex-direction:column;gap:12px}
+.card .txt,.card .res{display:flex;flex-direction:column;gap:12px}
+.card .res .figure{height:auto}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
 .yt{cursor:pointer;border:0;padding:0;width:100%;height:100%;background:#000;position:relative}
@@ -236,13 +237,15 @@ footer .btns{margin-top:18px}
             <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and ran an ABX listening study with 29 experienced listeners (1,305 trials). Instead of only asking whether a difference can be heard, the study used equivalence testing, with the margin fixed before data collection, to ask whether each capture is perceptually equivalent to its hardware. The data were analysed with a binomial mixed-effects model (GLMM).</p>
             <p><strong>Key finding:</strong> objective error did not predict what listeners heard.</p>
           </div>
-          <table class="mini">
-            <tr><th>Guitar amp</th><td><b>Perceptually equivalent</b></td></tr>
-            <tr><th>EQ</th><td>Easier to detect than the amp, despite about 4× lower objective error</td></tr>
-            <tr><th>Compressor</th><td>Reliably discriminated</td></tr>
-            <tr><th>Mark</th><td><b>78/100</b> · Distinction</td></tr>
-          </table>
-          <div class="ctx">University of York, 2026 · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
+          <div class="res">
+            <img class="figure" src="assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Forest plot of the ABX detection rate with 90% confidence interval for each device: amp 52.9%, EQ 58.6% and compressor 74.7%, against chance (50%) and the 60% equivalence margin.">
+            <table class="mini">
+              <tr><th>Guitar amp</th><td><b>Equivalent</b> · 52.9%</td></tr>
+              <tr><th>EQ</th><td>On the margin · 58.6%, despite about 4× lower objective error than the amp</td></tr>
+              <tr><th>Compressor</th><td>Discriminable · 74.7%</td></tr>
+            </table>
+          </div>
+          <div class="ctx">University of York, 2026 · Mark: 78/100 (Distinction) · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
         </div>
       </article>
 

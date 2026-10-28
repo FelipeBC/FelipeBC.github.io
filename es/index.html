@@ -141,7 +141,8 @@ table.mini td b{color:var(--accent)}
 .media.short .vbox{height:100%;aspect-ratio:9/16;max-width:100%}
 .media.short .vbox .yt,.media.short .vbox iframe{width:100%;height:100%;display:block}
 @media(max-width:899px){.media.short{aspect-ratio:4/5}}
-.card .txt{display:flex;flex-direction:column;gap:12px}
+.card .txt,.card .res{display:flex;flex-direction:column;gap:12px}
+.card .res .figure{height:auto}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
 .yt{cursor:pointer;border:0;padding:0;width:100%;height:100%;background:#000;position:relative}
@@ -237,13 +238,15 @@ footer .btns{margin-top:18px}
             <p>¿Pueden los oyentes distinguir una captura neuronal del hardware que imita? Capturé un amplificador de guitarra, un ecualizador y un compresor con Neural Amp Modeler e hice un estudio de escucha ABX con 29 oyentes experimentados (1305 ensayos). En lugar de preguntar solo si se oye una diferencia, el estudio usó pruebas de equivalencia, con el margen fijado antes de recoger los datos, para saber si cada captura es perceptualmente equivalente a su hardware. Los datos se analizaron con un modelo binomial de efectos mixtos (GLMM).</p>
             <p><strong>Hallazgo principal:</strong> el error objetivo no predijo lo que se oye.</p>
           </div>
-          <table class="mini">
-            <tr><th>Amplificador</th><td><b>Perceptualmente equivalente</b></td></tr>
-            <tr><th>Ecualizador</th><td>Más fácil de detectar que el amplificador, con un error objetivo unas 4 veces menor</td></tr>
-            <tr><th>Compresor</th><td>Se distinguió de forma consistente</td></tr>
-            <tr><th>Calificación</th><td><b>78/100</b> · Distinction</td></tr>
-          </table>
-          <div class="ctx">University of York, 2026 · Directores: Dr. Michael McLoughlin y Prof. Helena Daffern</div>
+          <div class="res">
+            <img class="figure" src="../assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Gráfico de la tasa de detección ABX con intervalo de confianza del 90 % para cada equipo: amplificador 52,9 %, ecualizador 58,6 % y compresor 74,7 %, frente al azar (50 %) y al margen de equivalencia del 60 %.">
+            <table class="mini">
+              <tr><th>Amplificador</th><td><b>Equivalente</b> · 52,9 %</td></tr>
+              <tr><th>Ecualizador</th><td>En el margen · 58,6 %, aunque su error objetivo era unas 4 veces menor que el del amplificador</td></tr>
+              <tr><th>Compresor</th><td>Distinguible · 74,7 %</td></tr>
+            </table>
+          </div>
+          <div class="ctx">University of York, 2026 · Calificación: 78/100 (Distinction) · Directores: Dr. Michael McLoughlin y Prof. Helena Daffern</div>
         </div>
       </article>
 
