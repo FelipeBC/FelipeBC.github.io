@@ -92,7 +92,7 @@ section{padding:64px 0;border-top:1px solid var(--line)}
 @media(min-width:900px){.projects{grid-template-columns:1fr 1fr}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
 .card.wide{grid-column:1/-1}
-@media(min-width:900px){.card.wide{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.card.wide .media{aspect-ratio:auto;height:100%;min-height:360px}.card.span{grid-column:1/-1}.card.span .body{display:grid;grid-template-columns:1fr 1fr;column-gap:32px}.card.span .body>.tags,.card.span .body>h3,.card.span .body>.ctx{grid-column:1/-1}}
+@media(min-width:900px){.card.wide{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:22px}.card.wide .media{aspect-ratio:auto;height:100%;min-height:360px}.card.span{grid-column:1/-1}.card.span .body{display:grid;grid-template-columns:1fr 1fr;column-gap:32px}.card.span .body>.tags,.card.span .body>h3,.card.span .body>.ctx{grid-column:1/-1}}
 .media{background:#0c0f11;aspect-ratio:16/9;position:relative;overflow:hidden}
 .media img,.media video{width:100%;height:100%;object-fit:cover}
 .media.contain img{object-fit:contain;background:#fff}
@@ -148,10 +148,10 @@ table.mini td b{color:var(--accent)}
 .card.thesis .evidence .figure{height:auto}
 .card.thesis .body.bottom{padding-top:16px;flex:none}
 @media(min-width:900px){
-  .card.thesis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);grid-template-rows:auto 1fr;grid-template-areas:"top fig" "bottom fig"}
+  .card.thesis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:22px;grid-template-rows:auto 1fr;grid-template-areas:"top fig" "bottom fig"}
   .card.thesis .top{grid-area:top}
   .card.thesis .bottom{grid-area:bottom;padding-top:4px}
-  .card.thesis .evidence{grid-area:fig;padding:22px 22px 22px 6px;justify-content:center}
+  .card.thesis .evidence{grid-area:fig;padding:22px;justify-content:center}
 }
 .card .sub{margin-top:-6px;font-style:italic}
 .verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
@@ -371,9 +371,13 @@ footer .btns{margin-top:18px}
           </button>
         </div></div>
         <div class="body">
-          <div class="tags"><span class="tag">VR</span><span class="tag">Unity</span><span class="tag">Steam Audio</span></div>
+          <div class="tags"><span class="tag">VR</span><span class="tag">Spatial audio</span><span class="tag">Gesture interaction</span></div>
           <h3>SoundSpells</h3>
           <p>A VR game for PICO 4 where sound becomes something you act on. You cast chorus, echo, pitch-shift and distortion "spells" with mid-air wand gestures to free four statues that whisper riddles. Audio is spatialised binaurally with Steam Audio, and telemetry from 20 test sessions was analysed to measure gesture-recognition rates.</p>
+          <p class="ctx">Unity · Steam Audio · PICO 4</p>
+          <div class="links">
+            <a href="https://youtube.com/shorts/KL1Qzr0SY0c" target="_blank" rel="noopener">Watch on YouTube →</a>
+          </div>
           <div class="ctx">MSc module: Sound Interactions in the Metaverse</div>
         </div>
       </article>
