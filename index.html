@@ -137,10 +137,11 @@ table.mini td b{color:var(--accent)}
 .thumbs button[aria-pressed="true"]{border-color:var(--accent)}
 
 /* youtube facade */
-.media.vertical{aspect-ratio:9/16;width:100%;max-width:190px;margin:16px auto 0;border-radius:10px;overflow:hidden}
-.media.vertical .yt,.media.vertical iframe{width:100%;height:100%}
-.media.vertical .yt img{width:100%;height:100%;object-fit:cover}
-@media(min-width:560px){.card.side{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);align-items:center}.card.side .media.vertical{margin:18px 0 18px 18px;width:calc(100% - 18px);max-width:none}}
+.media.short{display:flex;justify-content:center}
+.media.short .vbox{height:100%;aspect-ratio:9/16;max-width:100%}
+.media.short .vbox .yt,.media.short .vbox iframe{width:100%;height:100%;display:block}
+@media(max-width:899px){.media.short{aspect-ratio:4/5}}
+.card .txt{display:flex;flex-direction:column;gap:12px}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
 .yt{cursor:pointer;border:0;padding:0;width:100%;height:100%;background:#000;position:relative}
@@ -226,16 +227,19 @@ footer .btns{margin-top:18px}
 
     <div class="projects">
 
-      <!-- MSc dissertation (no results until the journal paper is settled) -->
+      <!-- MSc dissertation -->
       <article class="card span" id="thesis">
         <div class="body">
           <div class="tags"><span class="tag">MSc dissertation</span><span class="tag">Listening tests</span><span class="tag">Neural amp modelling</span><span class="tag">Statistics</span></div>
           <h3>Perceptual Evaluation of Neural Audio Device Modeling</h3>
-          <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and ran an ABX listening study to find out. Instead of only asking whether a difference can be heard, the study used equivalence testing to ask whether each capture is perceptually equivalent to its hardware, with the equivalence margin fixed before data collection.</p>
+          <div class="txt">
+            <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and ran an ABX listening study with 29 experienced listeners (1,305 trials). Instead of only asking whether a difference can be heard, the study used equivalence testing, with the margin fixed before data collection, to ask whether each capture is perceptually equivalent to its hardware. The data were analysed with a binomial mixed-effects model (GLMM).</p>
+            <p><strong>Key finding:</strong> objective error did not predict what listeners heard.</p>
+          </div>
           <table class="mini">
-            <tr><th>Devices</th><td>Guitar amp · EQ · compressor</td></tr>
-            <tr><th>Test</th><td>ABX with equivalence testing (TOST)</td></tr>
-            <tr><th>Analysis</th><td>Binomial mixed-effects model (GLMM)</td></tr>
+            <tr><th>Guitar amp</th><td><b>Perceptually equivalent</b></td></tr>
+            <tr><th>EQ</th><td>Easier to detect than the amp, despite about 4× lower objective error</td></tr>
+            <tr><th>Compressor</th><td>Reliably discriminated</td></tr>
             <tr><th>Mark</th><td><b>78/100</b> · Distinction</td></tr>
           </table>
           <div class="ctx">University of York, 2026 · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
@@ -335,13 +339,13 @@ footer .btns{margin-top:18px}
       </article>
 
       <!-- SoundSpells -->
-      <article class="card side">
-        <div class="media vertical">
+      <article class="card">
+        <div class="media short"><div class="vbox">
           <button class="yt" data-yt="KL1Qzr0SY0c" data-title="SoundSpells gameplay video" aria-label="Play SoundSpells video">
             <img src="https://i.ytimg.com/vi/KL1Qzr0SY0c/hqdefault.jpg" alt="" loading="lazy">
             <span class="pbtn"><span><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></span></span>
           </button>
-        </div>
+        </div></div>
         <div class="body">
           <div class="tags"><span class="tag">VR</span><span class="tag">Unity</span><span class="tag">Steam Audio</span></div>
           <h3>SoundSpells</h3>
