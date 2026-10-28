@@ -67,7 +67,6 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 .lang a,.lang span{padding:6px 10px;border-radius:999px;color:var(--muted);text-decoration:none}
 .lang a:hover{color:var(--ink)}
 .lang [aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
-.card.span .body>p.sub{grid-column:1/-1;margin-top:-6px;font-style:italic}
 
 /* hero */
 .hero{padding:72px 0 56px}
@@ -123,7 +122,7 @@ table.mini td b{color:var(--accent)}
 .play{width:40px;height:40px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center;flex:none}
 .play svg{width:16px;height:16px}
 @media(max-width:560px){.ab-label{width:100%}.seg button{padding:6px 9px;font-size:.8rem}}
-@media(max-width:360px){.ab{padding:12px}.seg{display:flex;width:100%}.seg button{flex:1 1 auto;padding:6px 4px;font-size:.76rem;white-space:nowrap}}
+@media(max-width:420px){.ab{padding:12px}.seg{display:flex;width:100%}.seg button{flex:1 1 auto;padding:6px 4px;font-size:.76rem;white-space:nowrap}}
 .progress{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}
 .progress i{display:block;height:100%;width:0;background:var(--accent)}
 
@@ -141,8 +140,29 @@ table.mini td b{color:var(--accent)}
 .media.short .vbox{height:100%;aspect-ratio:9/16;max-width:100%}
 .media.short .vbox .yt,.media.short .vbox iframe{width:100%;height:100%;display:block}
 @media(max-width:899px){.media.short{aspect-ratio:4/5}}
-.card .txt,.card .res{display:flex;flex-direction:column;gap:12px}
-.card .res .figure{height:auto}
+
+/* thesis card: text left, evidence (figure + verdicts) right */
+.card.thesis{grid-column:1/-1}
+.card.thesis .body.top{padding-bottom:8px;flex:none}
+.card.thesis .evidence{padding:0 22px;display:flex;flex-direction:column;gap:10px}
+.card.thesis .evidence .figure{height:auto}
+.card.thesis .body.bottom{padding-top:16px;flex:none}
+@media(min-width:900px){
+  .card.thesis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);grid-template-rows:auto 1fr;grid-template-areas:"top fig" "bottom fig"}
+  .card.thesis .top{grid-area:top}
+  .card.thesis .bottom{grid-area:bottom;padding-top:4px}
+  .card.thesis .evidence{grid-area:fig;padding:22px 22px 22px 6px;justify-content:center}
+}
+.card .sub{margin-top:-6px;font-style:italic}
+.verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.verdict{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);display:flex;flex-direction:column;gap:2px}
+.verdict b{font:700 1.3rem/1.15 "Space Grotesk",Inter,sans-serif;color:var(--ink)}
+.verdict span{font-size:.85rem;color:var(--ink)}
+.verdict small{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.verdict.ok b,.verdict.ok small{color:var(--accent)}
+.verdict.no b,.verdict.no small{color:var(--warm)}
+@media(max-width:520px){.verdicts{grid-template-columns:1fr}.verdict{display:grid;grid-template-columns:4.6em minmax(0,1fr);column-gap:12px;row-gap:0;align-items:center;padding:8px 12px}.verdict b{grid-row:1/3;font-size:1.2rem}}
+.card p.finding{color:var(--ink);border-left:3px solid var(--accent);padding-left:12px}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
 .yt{cursor:pointer;border:0;padding:0;width:100%;height:100%;background:#000;position:relative}
@@ -229,23 +249,24 @@ footer .btns{margin-top:18px}
     <div class="projects">
 
       <!-- MSc dissertation -->
-      <article class="card span" id="thesis">
-        <div class="body">
-          <div class="tags"><span class="tag">MSc dissertation</span><span class="tag">Listening tests</span><span class="tag">Neural amp modelling</span><span class="tag">Statistics</span></div>
+      <article class="card thesis" id="thesis">
+        <div class="body top">
+          <div class="tags"><span class="tag">MSc dissertation</span><span class="tag">Listening tests</span><span class="tag">Neural amp modelling</span></div>
           <h3>Perceptual Evaluation of Neural Audio Device Modeling</h3>
-          <div class="txt">
-            <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and ran an ABX listening study with 29 experienced listeners (1,305 trials). Instead of only asking whether a difference can be heard, the study used equivalence testing, with the margin fixed before data collection, to ask whether each capture is perceptually equivalent to its hardware. The data were analysed with a binomial mixed-effects model (GLMM).</p>
-            <p><strong>Key finding:</strong> objective error did not predict what listeners heard.</p>
+          <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amp, an EQ and a compressor with Neural Amp Modeler and ran an ABX test with 29 experienced listeners (1,305 trials), analysed with equivalence testing and a binomial mixed-effects model.</p>
+        </div>
+        <div class="evidence">
+          <img class="figure" src="assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Forest plot of the ABX detection rate with 90% confidence interval for each device: amp 52.9%, EQ 58.6% and compressor 74.7%, against chance (50%) and the 60% equivalence margin.">
+          <div class="verdicts" role="list" aria-label="ABX detection rate per device">
+            <div class="verdict ok" role="listitem"><b>52.9%</b><span>Guitar amp</span><small>Equivalent</small></div>
+            <div class="verdict mid" role="listitem"><b>58.6%</b><span>EQ</span><small>On the margin</small></div>
+            <div class="verdict no" role="listitem"><b>74.7%</b><span>Compressor</span><small>Discriminable</small></div>
           </div>
-          <div class="res">
-            <img class="figure" src="assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Forest plot of the ABX detection rate with 90% confidence interval for each device: amp 52.9%, EQ 58.6% and compressor 74.7%, against chance (50%) and the 60% equivalence margin.">
-            <table class="mini">
-              <tr><th>Guitar amp</th><td><b>Equivalent</b> · 52.9%</td></tr>
-              <tr><th>EQ</th><td>On the margin · 58.6%, despite about 4× lower objective error than the amp</td></tr>
-              <tr><th>Compressor</th><td>Discriminable · 74.7%</td></tr>
-            </table>
-          </div>
-          <div class="ctx">University of York, 2026 · Mark: 78/100 (Distinction) · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
+          <div class="ctx">ABX detection rate · chance 50% · equivalence margin 60%</div>
+        </div>
+        <div class="body bottom">
+          <p class="finding">Objective error did not predict what listeners heard: the EQ capture was about four times closer to its hardware than the amp capture, yet easier to detect.</p>
+          <div class="ctx">University of York, 2026 · Mark 78/100 (Distinction) · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
         </div>
       </article>
 
