@@ -146,6 +146,7 @@ table.mini td b{color:var(--accent)}
 .card.thesis .body.top{padding-bottom:8px;flex:none}
 .card.thesis .evidence{padding:0 22px;display:flex;flex-direction:column;gap:10px}
 .card.thesis .evidence .figure{height:auto}
+.card.thesis .evidence .figure.photo{aspect-ratio:16/10;object-fit:cover;background:#0c0f11;border-color:var(--line)}
 .card.thesis .body.bottom{padding-top:16px;flex:none}
 @media(min-width:900px){
   .card.thesis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:22px;grid-template-rows:auto 1fr;grid-template-areas:"top fig" "bottom fig"}
@@ -156,12 +157,11 @@ table.mini td b{color:var(--accent)}
 .card .sub{margin-top:-6px;font-style:italic}
 .verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .verdict{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);display:flex;flex-direction:column;gap:2px}
-.verdict b{font:700 1.3rem/1.15 "Space Grotesk",Inter,sans-serif;color:var(--ink)}
-.verdict span{font-size:.85rem;color:var(--ink)}
+.verdict b{font:700 1.02rem/1.2 "Space Grotesk",Inter,sans-serif;color:var(--ink)}
 .verdict small{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.verdict.ok b,.verdict.ok small{color:var(--accent)}
-.verdict.no b,.verdict.no small{color:var(--warm)}
-@media(max-width:520px){.verdicts{grid-template-columns:1fr}.verdict{display:grid;grid-template-columns:4.6em minmax(0,1fr);column-gap:12px;row-gap:0;align-items:center;padding:8px 12px}.verdict b{grid-row:1/3;font-size:1.2rem}}
+.verdict.ok small{color:var(--accent)}
+.verdict.no small{color:var(--warm)}
+@media(max-width:520px){.verdicts{grid-template-columns:1fr}.verdict{flex-direction:row;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 12px}}
 .card p.finding{color:var(--ink);border-left:3px solid var(--accent);padding-left:12px}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
@@ -253,20 +253,20 @@ footer .btns{margin-top:18px}
         <div class="body top">
           <div class="tags"><span class="tag">MSc dissertation</span><span class="tag">Listening tests</span><span class="tag">Neural amp modelling</span></div>
           <h3>Perceptual Evaluation of Neural Audio Device Modeling</h3>
-          <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amp, an EQ and a compressor with Neural Amp Modeler and ran an ABX test with 29 experienced listeners (1,305 trials), analysed with equivalence testing and a binomial mixed-effects model.</p>
+          <p>Can listeners tell a neural capture from the hardware it copies? I captured a guitar amplifier, an equaliser and a compressor with Neural Amp Modeler and compared each capture with its hardware in an ABX listening study with experienced listeners, using equivalence testing and a mixed-effects model.</p>
         </div>
         <div class="evidence">
-          <img class="figure" src="assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Forest plot of the ABX detection rate with 90% confidence interval for each device: amp 52.9%, EQ 58.6% and compressor 74.7%, against chance (50%) and the 60% equivalence margin.">
-          <div class="verdicts" role="list" aria-label="ABX detection rate per device">
-            <div class="verdict ok" role="listitem"><b>52.9%</b><span>Guitar amp</span><small>Equivalent</small></div>
-            <div class="verdict mid" role="listitem"><b>58.6%</b><span>EQ</span><small>On the margin</small></div>
-            <div class="verdict no" role="listitem"><b>74.7%</b><span>Compressor</span><small>Discriminable</small></div>
+          <img class="figure photo" src="assets/img/thesis-rig.jpg" width="1400" height="1050" loading="lazy" alt="The Laney Ironheart amplifier and cabinet miked with a Shure SM57, one of the three devices captured for the study.">
+          <div class="verdicts" role="list" aria-label="Main result per device">
+            <div class="verdict ok" role="listitem"><b>Guitar amp</b><small>Equivalent</small></div>
+            <div class="verdict mid" role="listitem"><b>EQ</b><small>Borderline</small></div>
+            <div class="verdict no" role="listitem"><b>Compressor</b><small>Distinguishable</small></div>
           </div>
-          <div class="ctx">ABX detection rate · chance 50% · equivalence margin 60%</div>
         </div>
         <div class="body bottom">
-          <p class="finding">Objective error did not predict what listeners heard: the EQ capture was about four times closer to its hardware than the amp capture, yet easier to detect.</p>
-          <div class="ctx">University of York, 2026 · Mark 78/100 (Distinction) · Supervisors: Dr Michael McLoughlin and Prof Helena Daffern</div>
+          <p class="finding">Objective error did not predict what listeners heard: the EQ capture measured closer to its hardware than the amp capture, yet it was easier to detect.</p>
+          <div class="ctx">Journal article in preparation with my supervisors, Dr Michael McLoughlin and Prof Helena Daffern. Detailed results are confidential until publication.</div>
+          <div class="ctx">University of York, 2026 · Mark 78/100 (Distinction)</div>
         </div>
       </article>
 
@@ -463,7 +463,7 @@ footer .btns{margin-top:18px}
   <div class="wrap">
     <div class="kicker">Toolkit</div>
     <h2>Skills</h2>
-    <p class="lead">MSc in Audio and Music Technology, University of York, 2025–26, with Distinction-level marks (70+) in all five graded taught modules and in the dissertation.</p>
+    <p class="lead">MSc in Audio and Music Technology, University of York, 2025–26, awarded with Distinction.</p>
     <div class="skills">
       <div class="panel"><h3>Production</h3><div class="chips"><span class="chip">Recording</span><span class="chip">Mixing</span><span class="chip">Mastering</span><span class="chip">Dialogue &amp; corrective editing</span><span class="chip">Restoration</span><span class="chip">Foley</span><span class="chip">Pro Tools</span><span class="chip">Reaper</span><span class="chip">Studio One</span><span class="chip">iZotope RX</span></div></div>
       <div class="panel"><h3>Evaluation &amp; analysis</h3><div class="chips"><span class="chip">Listening test design (ABX, MUSHRA)</span><span class="chip">Equivalence testing</span><span class="chip">Mixed-effects models</span><span class="chip">Spectrogram &amp; loudness analysis</span><span class="chip">Python</span><span class="chip">MATLAB</span></div></div>

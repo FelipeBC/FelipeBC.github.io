@@ -146,6 +146,7 @@ table.mini td b{color:var(--accent)}
 .card.thesis .body.top{padding-bottom:8px;flex:none}
 .card.thesis .evidence{padding:0 22px;display:flex;flex-direction:column;gap:10px}
 .card.thesis .evidence .figure{height:auto}
+.card.thesis .evidence .figure.photo{aspect-ratio:16/10;object-fit:cover;background:#0c0f11;border-color:var(--line)}
 .card.thesis .body.bottom{padding-top:16px;flex:none}
 @media(min-width:900px){
   .card.thesis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:22px;grid-template-rows:auto 1fr;grid-template-areas:"top fig" "bottom fig"}
@@ -156,12 +157,11 @@ table.mini td b{color:var(--accent)}
 .card .sub{margin-top:-6px;font-style:italic}
 .verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .verdict{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);display:flex;flex-direction:column;gap:2px}
-.verdict b{font:700 1.3rem/1.15 "Space Grotesk",Inter,sans-serif;color:var(--ink)}
-.verdict span{font-size:.85rem;color:var(--ink)}
+.verdict b{font:700 1.02rem/1.2 "Space Grotesk",Inter,sans-serif;color:var(--ink)}
 .verdict small{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.verdict.ok b,.verdict.ok small{color:var(--accent)}
-.verdict.no b,.verdict.no small{color:var(--warm)}
-@media(max-width:520px){.verdicts{grid-template-columns:1fr}.verdict{display:grid;grid-template-columns:4.6em minmax(0,1fr);column-gap:12px;row-gap:0;align-items:center;padding:8px 12px}.verdict b{grid-row:1/3;font-size:1.2rem}}
+.verdict.ok small{color:var(--accent)}
+.verdict.no small{color:var(--warm)}
+@media(max-width:520px){.verdicts{grid-template-columns:1fr}.verdict{flex-direction:row;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 12px}}
 .card p.finding{color:var(--ink);border-left:3px solid var(--accent);padding-left:12px}
 .figure{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
 
@@ -254,20 +254,20 @@ footer .btns{margin-top:18px}
           <div class="tags"><span class="tag">Tesis de maestría</span><span class="tag">Pruebas de escucha</span><span class="tag">Modelado neuronal</span></div>
           <h3 lang="en">Perceptual Evaluation of Neural Audio Device Modeling</h3>
           <p class="sub">Evaluación perceptual del modelado neuronal de dispositivos de audio</p>
-          <p>¿Pueden los oyentes distinguir una captura neuronal del hardware que imita? Capturé un amplificador de guitarra, un ecualizador y un compresor con Neural Amp Modeler e hice una prueba ABX con 29 oyentes experimentados (1305 ensayos), analizada con pruebas de equivalencia y un modelo binomial de efectos mixtos.</p>
+          <p>¿Pueden los oyentes distinguir una captura neuronal del hardware que imita? Capturé un amplificador de guitarra, un ecualizador y un compresor con Neural Amp Modeler y comparé cada captura con su hardware en un estudio de escucha ABX con oyentes experimentados, usando pruebas de equivalencia y un modelo de efectos mixtos.</p>
         </div>
         <div class="evidence">
-          <img class="figure" src="../assets/img/thesis-equivalence.png" width="1400" height="752" loading="lazy" alt="Gráfico de la tasa de detección ABX con intervalo de confianza del 90 % para cada equipo: amplificador 52,9 %, ecualizador 58,6 % y compresor 74,7 %, frente al azar (50 %) y al margen de equivalencia del 60 %.">
-          <div class="verdicts" role="list" aria-label="Tasa de detección ABX por equipo">
-            <div class="verdict ok" role="listitem"><b>52,9 %</b><span>Amplificador</span><small>Equivalente</small></div>
-            <div class="verdict mid" role="listitem"><b>58,6 %</b><span>Ecualizador</span><small>En el margen</small></div>
-            <div class="verdict no" role="listitem"><b>74,7 %</b><span>Compresor</span><small>Distinguible</small></div>
+          <img class="figure photo" src="../assets/img/thesis-rig.jpg" width="1400" height="1050" loading="lazy" alt="El amplificador Laney Ironheart y su gabinete, microfoneados con un Shure SM57: uno de los tres equipos capturados para el estudio.">
+          <div class="verdicts" role="list" aria-label="Resultado principal por equipo">
+            <div class="verdict ok" role="listitem"><b>Amplificador</b><small>Equivalente</small></div>
+            <div class="verdict mid" role="listitem"><b>Ecualizador</b><small>En el límite</small></div>
+            <div class="verdict no" role="listitem"><b>Compresor</b><small>Distinguible</small></div>
           </div>
-          <div class="ctx">Tasa de detección ABX · azar 50 % · margen de equivalencia 60 %</div>
         </div>
         <div class="body bottom">
-          <p class="finding">El error objetivo no predijo lo que se oye: la captura del ecualizador estaba unas cuatro veces más cerca de su hardware que la del amplificador, y aun así fue más fácil de detectar.</p>
-          <div class="ctx">University of York, 2026 · Calificación: 78/100 (Distinction) · Directores: Dr. Michael McLoughlin y Prof. Helena Daffern</div>
+          <p class="finding">El error objetivo no predijo lo que se oye: la captura del ecualizador medía más cerca de su hardware que la del amplificador y, aun así, fue más fácil de detectar.</p>
+          <div class="ctx">Artículo para revista en preparación con mis directores, Dr. Michael McLoughlin y Prof. Helena Daffern. Los resultados detallados son confidenciales hasta su publicación.</div>
+          <div class="ctx">University of York, 2026 · Calificación: 78/100 (Distinction)</div>
         </div>
       </article>
 
@@ -464,7 +464,7 @@ footer .btns{margin-top:18px}
   <div class="wrap">
     <div class="kicker">Herramientas</div>
     <h2>Habilidades</h2>
-    <p class="lead">Maestría (MSc) en Audio and Music Technology, University of York, 2025–26, con calificaciones en la banda Distinction (70 o más) en los cinco módulos calificados y en la tesis.</p>
+    <p class="lead">Maestría (MSc) en Audio and Music Technology, University of York, 2025–26, otorgada con Distinction.</p>
     <div class="skills">
       <div class="panel"><h3>Producción</h3><div class="chips"><span class="chip">Grabación</span><span class="chip">Mezcla</span><span class="chip">Masterización</span><span class="chip">Edición de diálogos y correctiva</span><span class="chip">Restauración</span><span class="chip">Foley</span><span class="chip">Pro Tools</span><span class="chip">Reaper</span><span class="chip">Studio One</span><span class="chip">iZotope RX</span></div></div>
       <div class="panel"><h3>Evaluación y análisis</h3><div class="chips"><span class="chip">Pruebas de escucha (ABX, MUSHRA)</span><span class="chip">Pruebas de equivalencia</span><span class="chip">Modelos de efectos mixtos</span><span class="chip">Análisis espectral y de sonoridad</span><span class="chip">Python</span><span class="chip">MATLAB</span></div></div>
